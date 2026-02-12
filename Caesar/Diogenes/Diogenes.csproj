@@ -169,6 +169,8 @@
     </Compile>
     <Compile Include="IVariantCodingDataProvider.cs" />
     <Compile Include="MockVariantCodingDataProvider.cs" />
+    <Compile Include="RecordingVariantCodingDataProvider.cs" />
+    <Compile Include="ReplayVariantCodingDataProvider.cs" />
     <Compile Include="UnmanagedUtility.cs" />
     <Compile Include="Forms\VCForm.cs">
       <SubType>Form</SubType>

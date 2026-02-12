@@ -29,6 +29,7 @@ For working code:
 | PR_SUMMARY.md | PR overview and impact | All stakeholders | Long |
 | QuickStartGuide.md | Quick start tutorial | Developers | Medium |
 | VariantCodingProviderGuide.md | Complete usage guide | Developers | Medium |
+| RecordingReplayGuide.md | Recording/Replay guide | Developers | Long |
 | REFACTORING_SUMMARY.md | Technical details | Developers | Long |
 | ArchitectureDiagram.md | Visual architecture | Technical leads | Long |
 
@@ -42,6 +43,8 @@ Implemented Provider Pattern with DI:
 - Created `IVariantCodingDataProvider` interface
 - Implemented `ECUConnectionDataProvider` for production
 - Implemented `MockVariantCodingDataProvider` for testing
+- Implemented `RecordingVariantCodingDataProvider` for capturing real sessions
+- Implemented `ReplayVariantCodingDataProvider` for replaying captured sessions
 - Refactored `VCForm` to use the provider interface
 
 ### The Result
@@ -52,21 +55,25 @@ Implemented Provider Pattern with DI:
 
 ## Key Files Created
 
-### Code (3 files)
+### Code (5 files)
 - `Caesar/Diogenes/IVariantCodingDataProvider.cs` - Interface
 - `Caesar/Diogenes/ECUConnectionDataProvider.cs` - Production implementation
 - `Caesar/Diogenes/MockVariantCodingDataProvider.cs` - Test implementation
+- `Caesar/Diogenes/RecordingVariantCodingDataProvider.cs` - Recording wrapper
+- `Caesar/Diogenes/ReplayVariantCodingDataProvider.cs` - Replay implementation
 
-### Documentation (6 files)
+### Documentation (7 files)
 - `docs/PR_SUMMARY.md` - PR summary
 - `docs/QuickStartGuide.md` - Quick start
 - `docs/VariantCodingProviderGuide.md` - Complete guide
+- `docs/RecordingReplayGuide.md` - Recording/Replay guide
 - `docs/REFACTORING_SUMMARY.md` - Technical details
 - `docs/ArchitectureDiagram.md` - Architecture diagrams
 - `Caesar/Diogenes/Examples/README.md` - Examples guide
 
-### Examples (1 file)
+### Examples (2 files)
 - `Caesar/Diogenes/Examples/VariantCodingTestExample.cs` - 6 working examples
+- `Caesar/Diogenes/Examples/RecordingReplayExample.cs` - 8 recording/replay examples
 
 ## Quick Usage Example
 

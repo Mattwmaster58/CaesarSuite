@@ -48,6 +48,31 @@ var readOnlyProvider = new MockVariantCodingDataProvider(
 );
 ```
 
+#### 3. `RecordingVariantCodingDataProvider` (Recording)
+
+Wraps another provider to record all interactions for later replay:
+
+```csharp
+// Wrap any provider with recording
+var ecuProvider = new ECUConnectionDataProvider(connection);
+var recordingProvider = new RecordingVariantCodingDataProvider(ecuProvider);
+
+// Use normally, then save the recording
+recordingProvider.SaveRecording("session.txt");
+```
+
+#### 4. `ReplayVariantCodingDataProvider` (Replay)
+
+Replays previously recorded sessions without requiring hardware:
+
+```csharp
+// Load a recording and replay it
+var replayProvider = new ReplayVariantCodingDataProvider("session.txt");
+// Use like any other provider - responses come from the recording
+```
+
+See `RecordingReplayGuide.md` for detailed documentation on recording and replay providers.
+
 ## Usage Examples
 
 ### Example 1: Testing VCForm with Mock Data
