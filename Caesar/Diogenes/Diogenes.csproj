@@ -96,6 +96,7 @@
       <DependentUpon>AboutForm.cs</DependentUpon>
     </Compile>
     <Compile Include="ECUConnection.cs" />
+    <Compile Include="ECUConnectionDataProvider.cs" />
     <Compile Include="Forms\DTCForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -166,6 +167,8 @@
     <Compile Include="Forms\UDSHexEditor.Designer.cs">
       <DependentUpon>UDSHexEditor.cs</DependentUpon>
     </Compile>
+    <Compile Include="IVariantCodingDataProvider.cs" />
+    <Compile Include="MockVariantCodingDataProvider.cs" />
     <Compile Include="UnmanagedUtility.cs" />
     <Compile Include="Forms\VCForm.cs">
       <SubType>Form</SubType>

@@ -11,12 +11,12 @@ namespace Diogenes
     public class VariantCoding
     {
 
-        private static void ExecVCWrite(byte[] request, DiagService service, ECUConnection connection, bool writesEnabled)
+        private static void ExecVCWrite(byte[] request, DiagService service, IVariantCodingDataProvider dataProvider, bool writesEnabled)
         {
             bool allowVcWrite = writesEnabled; // allowWriteVariantCodingToolStripMenuItem.Checked;
             if (allowVcWrite)
             {
-                connection.ExecUserDiagJob(request, service);
+                dataProvider.WriteVariantCoding(request, service);
                 Console.WriteLine("VC Write completed");
             }
             else
@@ -43,7 +43,7 @@ namespace Diogenes
             */
 
 
-        public static void DoVariantCoding(ECUConnection connection, VCForm vcForm, bool writesEnabled) 
+        public static void DoVariantCoding(VCForm vcForm, bool writesEnabled) 
         {
             Console.WriteLine($"Operator requesting for VC: {BitUtility.BytesToHex(vcForm.VCValue, true)}");
 
@@ -238,21 +238,21 @@ namespace Diogenes
                     "You may wish to review them by selecting Cancel, or select OK to execute the write command immediately.\r\n\r\n" + assumptionsMade.ToString(),
                     "Review assumptions", MessageBoxButtons.OKCancel, MessageBoxIcon.Information) == DialogResult.OK)
                 {
-                    ExecVCWrite(writeCommand, vcForm.WriteService, connection, writesEnabled);
+                    ExecVCWrite(writeCommand, vcForm.WriteService, vcForm.DataProvider, writesEnabled);
                 }
                 else
                 {
                     runDiagForm.Result = writeCommand;
                     if (runDiagForm.ShowDialog() == DialogResult.OK)
                     {
-                        ExecVCWrite(runDiagForm.Result, vcForm.WriteService, connection, writesEnabled);
+                        ExecVCWrite(runDiagForm.Result, vcForm.WriteService, vcForm.DataProvider, writesEnabled);
                     }
                 }
             }
             else
             {
                 // everything accounted for, immediately write
-                ExecVCWrite(writeCommand, vcForm.WriteService, connection, writesEnabled);
+                ExecVCWrite(writeCommand, vcForm.WriteService, vcForm.DataProvider, writesEnabled);
             }
         }
     }

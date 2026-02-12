@@ -484,11 +484,14 @@ namespace Diogenes
             Console.WriteLine($"Starting VC Dialog for {ecuName} ({variantName}) with domain as {domainName}");
             CaesarContainer container = Containers.Find(x => x.GetECUVariantByName(variantName) != null);
 
+            // Create data provider based on connection state
+            IVariantCodingDataProvider dataProvider = new ECUConnectionDataProvider(Connection);
+
             // prompt the user for vc changes via VCForm
-            VCForm vcForm = new VCForm(container, ecuName, variantName, domainName, Connection);
+            VCForm vcForm = new VCForm(container, ecuName, variantName, domainName, dataProvider);
             if (vcForm.ShowDialog() == DialogResult.OK)
             {
-                VariantCoding.DoVariantCoding(Connection, vcForm, allowWriteVariantCodingToolStripMenuItem.Checked);
+                VariantCoding.DoVariantCoding(vcForm, allowWriteVariantCodingToolStripMenuItem.Checked);
             }
         }
 

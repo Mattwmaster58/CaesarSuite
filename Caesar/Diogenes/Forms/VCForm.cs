@@ -25,11 +25,18 @@ namespace Diogenes
 
         public DiagService ReadService;
         public DiagService WriteService;
+        public IVariantCodingDataProvider DataProvider;
 
-        public VCForm(CaesarContainer container, string ecuName, string variantName, string vcDomain, ECUConnection connection)
+        public VCForm(CaesarContainer container, string ecuName, string variantName, string vcDomain, IVariantCodingDataProvider dataProvider)
         {
             InitializeComponent();
 
+            if (dataProvider == null)
+            {
+                throw new ArgumentNullException(nameof(dataProvider));
+            }
+
+            DataProvider = dataProvider;
             ECUName = ecuName;
             VariantName = variantName;
             VCDomainName = vcDomain;
@@ -62,10 +69,10 @@ namespace Diogenes
                 }
             }
 
-            if (connection.State >= ECUConnection.ConnectionState.ChannelConnectedPendingEcuContact)
+            if (DataProvider.CanReadVariantCoding)
             {
                 // Console.WriteLine($"Requesting variant coding read: {ReadService.Qualifier} : ({BitUtility.BytesToHex(ReadService.RequestBytes)})");
-                byte[] response = connection.SendDiagRequest(ReadService);
+                byte[] response = DataProvider.ReadVariantCoding(ReadService);
 
                 DiagPreparation largestPrep = GetLargestPreparation(ReadService.OutputPreparations);
                 if (largestPrep.PresPoolIndex > -1)
@@ -83,8 +90,10 @@ namespace Diogenes
             {
                 Console.WriteLine("Please check for connectivity to the target ECU (could not read variant coding data)");
                 MessageBox.Show("Variant Coding dialog will operate as a simulation using default values.", "Unable to read ECU variant coding data", MessageBoxButtons.OK);
-                btnApply.Enabled = false;
             }
+
+            // Enable/disable apply button based on write capability
+            btnApply.Enabled = DataProvider.CanWriteVariantCoding;
 
             // VCSanityCheck();
             IntepretVC();
